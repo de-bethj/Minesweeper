@@ -29,7 +29,7 @@ class Move:
         def adjust(num, offset=1):
             num -= offset
             if num < 0:
-                return 0
+                return None
             return num
 
         moveParts = self.raw.split(" ")

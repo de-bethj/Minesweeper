@@ -15,20 +15,22 @@ while keepPlaying:
     theBoard = Board(DEMO_X, DEMO_Y)
     theBoard.placeMines()
 
-    print("\n~MINESWEEPER~\n")
+    print("\n~MINESWEEPER~")
 
     while not gameOver:
+        print("")
         theBoard.display()
+        print("")
 
         move_str = input("Enter a row number followed by column number: ")
 
-        if move_str == "HELP":
-            #do something helpful
-            print("No, thank you.")
-
         theMove = Move(move_str)
 
-        if theMove.isValid():
+        if move_str.upper() == "HELP":
+            #do something helpful
+            print("\n No, thank you.")
+
+        elif theMove.isValid():
             try:
                 theMove.parse()
                 theTile = theBoard.getTile(theMove)
@@ -39,9 +41,12 @@ while keepPlaying:
                     gameOver = theBoard.explode(theTile)
 
             except ValueError:
-                print("Invalid input. Syntax: rr cc (F#)")
+                print("\nInvalid input. Syntax: rr cc (F#)")
             except IndexError:
-                print("Invalid input. Board is {0}x{1}".format(theBoard.rows(), theBoard.cols()))
+                print("\nInvalid input. Board is {0}x{1}.".format(theBoard.rows(), theBoard.cols()))
+            except AttributeError:
+                print("\nInvalid input. Board is {0}x{1}.".format(theBoard.rows(), theBoard.cols()))
+                print("(Are you trying to use CS-style indexes?)")
         else:
             print("Invalid input. Syntax: rr cc (F#)")
 
