@@ -1,6 +1,6 @@
 import re
 
-FORMAT = re.compile(r" *\d+ +\d+( F\d)?")
+FORMAT = re.compile(r" *\d+ +\d+( F\d)? *")
 
 
 class Move:
@@ -26,6 +26,12 @@ class Move:
 
     def parse(self, csInputs=False):
 
+        def adjust(num, offset=1):
+            num -= offset
+            if num < 0:
+                return 0
+            return num
+
         moveParts = self.raw.split(" ")
         x, y = moveParts[0], moveParts[1]
         self.pos_x, self.pos_y = int(x), int(y)
@@ -35,8 +41,8 @@ class Move:
             self.flag = int(f)
 
         if not csInputs:
-            self.pos_x -= 1
-            self.pos_y -= 1
+            self.pos_x, = adjust(self.pos_x)
+            self.pos_y, = adjust(self.pos_y)
 
     def __str__(self):
         return self.raw
