@@ -1,4 +1,5 @@
 import re
+from Error import NoSuchTileError
 
 FORMAT = re.compile(r" *\d+ +\d+( F\d)? *")
 
@@ -7,7 +8,7 @@ class Move:
     raw = "0 0"
     pos_x = 0
     pos_y = 0
-    flag = 0
+    flag = None
 
     def __init__(self, raw_str):
         self.raw = raw_str.upper()
@@ -29,7 +30,7 @@ class Move:
         def adjust(num, offset=1):
             num -= offset
             if num < 0:
-                return None
+                raise NoSuchTileError
             return num
 
         moveParts = self.raw.split(" ")

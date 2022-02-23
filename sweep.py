@@ -1,13 +1,13 @@
-from move import Move
+from move import Move, NoSuchTileError
 from board import Board
 
-DEMO_X = 4
-DEMO_Y = 4
-DEMO_MINES = 4
+DEMO_X = 5
+DEMO_Y = 5
 
 
 INPUT_TYPE = 0
 gameOver = False
+tilesRemain = True
 keepPlaying = 'Y'
 
 while keepPlaying:
@@ -17,7 +17,7 @@ while keepPlaying:
 
     print("\n~MINESWEEPER~")
 
-    while not gameOver:
+    while not gameOver and tilesRemain:
         print("")
         theBoard.display()
         print("")
@@ -33,25 +33,37 @@ while keepPlaying:
         elif theMove.isValid():
             try:
                 theMove.parse()
+
                 theTile = theBoard.getTile(theMove)
-                theTile.setFlagType(theMove.getFlag())
 
-                if not theTile.isFlagged():
-                    theTile.reveal()
+                if theMove.getFlag() is not None:
+                    theTile.setFlagType(theMove.getFlag())
+
+                elif not theTile.isFlagged():
+                    theBoard.revealTile(theTile)
+
                     gameOver = theBoard.explode(theTile)
+                    tilesRemain = theBoard.tilesLeft()
 
-            except ValueError:
-                print("\nInvalid input. Syntax: rr cc (F#)")
             except IndexError:
                 print("\nInvalid input. Board is {0}x{1}.".format(theBoard.rows(), theBoard.cols()))
-            except AttributeError:
+            except NoSuchTileError:
                 print("\nInvalid input. Board is {0}x{1}.".format(theBoard.rows(), theBoard.cols()))
                 print("(Are you trying to use CS-style indexes?)")
+            except ValueError:
+                print("\nInvalid input. Syntax: rr cc (F#)")
         else:
             print("Invalid input. Syntax: rr cc (F#)")
 
-    print("\n\n KABOOM!!\n")
-    theBoard.showSolution()
+    if gameOver:
+        print("\n\n KABOOM!!\n")
+        theBoard.showSolution()
+    if not tilesRemain:
+        print("\n\nCONGRATULATIONS!!\n")
 
     if input("Play again? (Y/N)  ").upper() == 'N':
         keepPlaying = False
+    else:
+        gameOver = False
+        tilesRemain = True
+

@@ -83,7 +83,6 @@ class Tile:
         contents = " "
 
         if self.flag_type:
-            # contents = "|{0}|".format(self.getFlagType())
             if self.flag_type == 1:
                 contents = "F"
             else:
