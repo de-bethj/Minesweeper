@@ -7,8 +7,7 @@ class Board:
     num_rows = 0
     num_columns = 0
     num_mines = 0
-    #close enough. RTC correct method
-    tile_grid = ""
+    tile_grid = None
 
     def __init__(self, rows=0, columns=0):
         self.num_rows = rows
@@ -30,20 +29,19 @@ class Board:
     def cols(self):
         return self.num_columns
 
-    def getTile(self, pos_x, pos_y, csInput=False):
-        if not csInput:
-            return self.tile_grid[pos_x - 1, pos_y - 1]
-        return self.tile_grid[pos_x, pos_y]
+    def getTile(self, move):
+        print(move.posX(), move.posY())
+        return self.tile_grid[move.posX(), move.posY()]
 
     def updateSurroundingTiles(self, center_tile):
         for position in center_tile.adjacents():
             if -1 not in position:
                 try:
                     self.tile_grid[position].addNearbyMine()
-#                    print("added nearby mine to {0}".format(position))
                 except IndexError:
+                    # if adjacent tile is outside the board
+                    # skip it and move on
                     pass
-#                    print("index OB (probably caused by edges)")
 
     def placeMines(self):
         placed = 0
