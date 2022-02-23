@@ -41,8 +41,8 @@ class Move:
             self.flag = int(f)
 
         if not csInputs:
-            self.pos_x, = adjust(self.pos_x)
-            self.pos_y, = adjust(self.pos_y)
+            self.pos_x = adjust(self.pos_x)
+            self.pos_y = adjust(self.pos_y)
 
     def __str__(self):
         return self.raw
