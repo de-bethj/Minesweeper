@@ -1,0 +1,44 @@
+#:kivy 1.0.9
+
+<SweepGame>:
+    canvas:
+        Rectangle:
+            pos: self.center_x - 5, 0
+            size: 10, self.height
+
+    Label:
+        font_size: 70
+        center_x: root.width / 4
+        top: root.top - 50
+        text: "0"
+
+
+
+
+    Label:
+        font_size: 70
+        center_x: root.width * 3 / 4
+        top: root.top - 50
+        text: "0"
+
+<ContextMenu>:
+    orientation: 'horizontal'
+    size_hint: (.1, .1)
+
+<FlagMenu@ContextMenu>:
+
+    Button:
+        size_hint: (.5, 1)
+        text: "F1"
+        on_press: self.parent.addFlag(self.text)
+    Button:
+        size_hint: (.5, 1)
+        text: "F2"
+        on_press: self.parent.addFlag(self.text)
+
+
+
+<TileButton>:
+    #disabled: True
+
+<BoardFrame>:
